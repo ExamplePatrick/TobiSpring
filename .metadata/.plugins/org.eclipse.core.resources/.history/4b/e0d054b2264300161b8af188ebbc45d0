@@ -1,0 +1,16 @@
+package DAO;
+
+import java.sql.SQLException;
+
+import DTO.User;
+
+public class UserDAO {
+
+	
+	public void add(User user) throws ClassNotFoundException, SQLException {
+		
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection c = DriverManager.getConnection("")
+	}
+	
+}

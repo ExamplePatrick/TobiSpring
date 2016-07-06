@@ -1,0 +1,51 @@
+package DAO;
+
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSet;
+
+import DTO.User;
+
+public class UserDAO {
+
+	public void add(User user) throws ClassNotFoundException, SQLException {
+		
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection c = DriverManager.getConnection("jdbc:mysql://localhost/tobi_spring_v1","root", "root");
+		
+		PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
+		ps.setString(1,  user.getId());
+		ps.setString(2,  user.getName());
+		ps.setString(3,  user.getPassword());
+		
+		ps.executeUpdate();
+		
+		ps.close();
+		c.close();
+	}
+	
+	public User get(String id) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection c = DriverManager.getConnection("jdbc:mysql://localhost/tobi_spring_v1","root","root");
+		
+		PreparedStatement ps = c.prepareStatement("select * from users where id =?");
+		
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		User user = new User();
+		user.setId(rs.getString("id"));
+		user.setName(rs.getString("name"));
+		user.setPassword(rs.getString("password"));
+		
+		rs.close();
+		ps.close();
+		c.close();
+		
+		return user;
+	}
+	
+}
